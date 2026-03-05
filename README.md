@@ -1,5 +1,8 @@
 # Confract — AI Knowledge Consolidation Engine
 
+**Live Demo**: 
+- 📚 **Confract**: http://143.198.51.64/confract/
+
 Self-hosted. No external API. No per-request cost. No user accounts.
 
 ## Structure
