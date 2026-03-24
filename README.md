@@ -1,9 +1,42 @@
 # Confract — AI Knowledge Consolidation Engine
 
-**Live Demo**: 
-- 📚 **Confract**: http://143.198.51.64/confract/
+A self-hosted, zero-cost AI document analysis engine that transforms raw information into structured knowledge using local transformer models.
 
-Self-hosted. No external API. No per-request cost. No user accounts.
+**Author**: Timothy Johnson  
+**Date**: February 2026
+
+**Live Demo**: 
+- 📄 **Confract**: http://143.198.51.64/confract/
+
+Key Features: Self-hosted · No external API · No per-request cost · No user accounts
+
+## 🌟 Overview
+
+Confract is an intelligent knowledge consolidation system that uses local AI models to analyze, structure, and connect information from raw text inputs. Unlike cloud-based solutions, it runs entirely on your infrastructure with zero ongoing costs and complete data privacy.
+
+## ✨ Features
+
+### 🤖 Local AI Processing
+- **Zero API Costs**: Runs entirely with local transformer models
+- **Privacy-First**: All data stays on your server
+- **Offline Capable**: No internet connection required after initial setup
+
+### 📄 Intelligent Document Analysis
+- **Entity Detection**: Identifies key concepts, people, organizations, and themes
+- **Relation Mapping**: Discovers connections between extracted entities
+- **Document Consolidation**: Merges related information from multiple sources
+
+### 🔍 Context-Aware Processing
+- **Semantic Understanding**: Analyzes meaning beyond keyword matching
+- **Existing Document Integration**: Enriches and updates existing knowledge
+- **Similarity Detection**: Identifies related content across document collections
+
+### 🚀 Production-Ready Architecture
+- **Express Backend**: Fast, lightweight Node.js server
+- **HuggingFace Transformers**: State-of-the-art local AI models
+- **Health Monitoring**: Built-in service health checks
+
+## 🏗️ Architecture
 
 ## Structure
 
@@ -19,102 +52,44 @@ confract/
     └── script.js   ← app JavaScript
 ```
 
----
+### API Endpoints
 
-## Run locally
+| Endpoint | Method | Description | Request Body | Response |
+|----------|--------|-------------|--------------|----------|
+| `/api/process` | POST | Process raw text into structured document | `{"input": "raw text", "existingDoc": null \| docObject}` | JSON with processed document |
+| `/api/detect` | POST | Detect relationships with existing documents | { input: "raw text", docs: [...] } | JSON with similarity analysis |
+| `/api/health` | GET | Service health check | None | Service status |
 
-```bash
-npm install
-node server.js
-```
+## 🚀 Quick Start
 
-- Landing page: http://localhost:3002
-- App:          http://localhost:3002/confract.html
-- Health check: http://localhost:3002/api/health
+### Prerequisites
+- Python 3.8+
+- pip package manager
 
-**First run** downloads the AI model once (~25MB). Cached locally after that.
+### Installation
 
----
+1. Clone the repository:
 
-## Change the port
+    git clone https://github.com/MrTimmyJ/Next-Novel.git
+    cd next-novel
 
-Open `server.js`, line 9:
-```js
-const PORT = process.env.PORT || 3002;  // ← change this number
-```
-Also update `script.js`, line 2:
-```js
-? 'http://localhost:3002/api'           // ← match it here
-```
+2. Install dependencies:
 
----
+    cd backend
+    python3 -m venv venv
+    source venv/bin/activate  # Mac/Linux
+    # venv\Scripts\activate   # Windows
+    
+    pip install -r requirements.txt
+    python app.py
 
-## Deploy to your Linux VM
+3. Host locally:
 
-```bash
-# Copy files to server (or git clone)
-scp -r confract/ user@your-server-ip:~/confract
+   Backend: python app.py
+   Frontend: python3 -m http.server 8000
 
-# SSH in and install
-ssh user@your-server-ip
-cd confract
-npm install
+🪪 License
 
-# Install PM2 to keep it alive
-npm install -g pm2
-pm2 start server.js --name confract
-pm2 save
-pm2 startup    # prints a command — run that command to auto-start on reboot
-```
+© 2026 Timothy Johnson. All Rights Reserved.<br>
+This project and its code may not be copied, modified, or reused without permission.
 
-**Optional: nginx on port 80**
-```nginx
-# /etc/nginx/sites-available/confract
-server {
-    listen 80;
-    server_name your-domain.com;   # or your server IP
-
-    location / {
-        proxy_pass http://localhost:3002;
-        proxy_http_version 1.1;
-        proxy_set_header Upgrade $http_upgrade;
-        proxy_set_header Connection 'upgrade';
-        proxy_set_header Host $host;
-    }
-}
-```
-```bash
-ln -s /etc/nginx/sites-available/confract /etc/nginx/sites-enabled/
-nginx -t && systemctl reload nginx
-```
-
----
-
-## Deploy to Railway (easiest, free tier)
-
-1. Push to GitHub
-2. railway.app → New Project → Deploy from GitHub repo
-3. Set `PORT` env var to `3002` (or Railway assigns one automatically)
-4. Done — live HTTPS URL in ~2 minutes
-
----
-
-## Running alongside your book recommender
-
-If your book recommender is on port 3001 and Confract is on 3002, both run fine simultaneously:
-
-```bash
-pm2 start recommender/app.py --interpreter python3 --name bookrec
-pm2 start confract/server.js --name confract
-pm2 list   # see both running
-```
-
----
-
-## API
-
-```
-POST /api/process    body: { input: "raw text", existingDoc: null | docObject }
-POST /api/detect     body: { input: "raw text", docs: [...] }
-GET  /api/health
-```
