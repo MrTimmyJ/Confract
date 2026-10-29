@@ -1,6 +1,5 @@
 // ╔══════════════════════════════════════════════════════════╗
 // ║  CONFRACT ENGINE — engine.js                             ║
-// ║  Mirrors your BookRecommender class pattern              ║
 // ║  Model: all-MiniLM-L6-v2 via @xenova/transformers        ║
 // ║  Runs 100% locally — no internet needed after first run  ║
 // ╚══════════════════════════════════════════════════════════╝
